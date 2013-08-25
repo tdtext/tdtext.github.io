@@ -1,69 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>How to create a The DataTank extension by tdtext</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>Tdtext.github.io by tdtext</title>
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
-    <div id="container">
-      <div class="inner">
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/tdtext">View On GitHub</a></li>
+        </nav>
+      </div><!-- end header -->
 
-        <header>
-          <h1>Tdtext.github.io</h1>
-          <h2>How to create a The DataTank extension</h2>
-        </header>
+    <div class="wrapper">
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/tdtext" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
+      <section>
+        <div id="title">
+          <h1>How to create a The DataTank extension</h1>
+          <p>Extending The DataTank's functionality without touching the core</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/tdtext">tdtext</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-        <hr>
-
-        <section id="main_content">
-          <h1>
+        <h1>
 <a name="tdtext" class="anchor" href="#tdtext"><span class="octicon octicon-link"></span></a>tdtext</h1>
 
 <p>Have you as well been dreaming about a world where it is possible for anyone to write a The DataTank extension and amaze the world of Open Data?</p>
 
-<p>With tdtext, this should become possible. Just like people can easily create ckan extensions (ckanext, see what we did there?) with a minimum of documentation, you are able to create The DataTank extensions which plug into the workflow. The TDT extension systems is built for the ease of developers. Once a The DataTank is installed, it should be a breeze to install: scrapers, extra formatters, extra visualizations, strategies to read data, and so on.</p>
+<p>With tdtext, this becomes possible. Just like people can easily create ckan extensions (ckanext, see what we did there?) with a minimum of documentation, you are able to create The DataTank extensions which plug into the core workflow. The DataTank extension systems is built for the ease of developers. Once a The DataTank is installed, it should be a breeze to install: scrapers, extra formatters, extra visualizations, strategies to read data, and so on.</p>
 
 <h2>
 <a name="architecture" class="anchor" href="#architecture"><span class="octicon octicon-link"></span></a>Architecture</h2>
 
-<p>A lot of classes in The DataTank become Observables. From the moment something happens in a certain object of such a class, an event will be triggered and the Observers will be updated about this event.</p>
-
-<p>One observer will be the TdtextNotifier. TdtextNotifier stands for: The DataTank Extensions Notifier. It will detect the kind of event that happened, and will alert the right instances of an extension about this.</p>
-
-<p><em>For the DataTank techies who are afraid of switching to this architecture: it only consists of making some classes splSubjects (<a href="http://www.php.net/manual/en/class.splsubject.php">http://www.php.net/manual/en/class.splsubject.php</a>) and adding the right hooks. They will by default always have one observer: TdtextNotifier which will hold a list of all extensions installed and which interfaces they implement.</em></p>
+<p>We have one singleton class called <code>TdtextNotifier</code>. This class will be updated by tdt/core whenever something happens: the routes are loaded, the formatters are loaded, the documentation is updated, and so on. <code>TdtextNotifier</code> will collect all updates and will direct then to registered tdtext classes. These classes can be added to the configuration. What event will go to which class is decided based on the interfaces they inherit from.</p>
 
 <h2>
-<a name="repositories" class="anchor" href="#repositories"><span class="octicon octicon-link"></span></a>Repositories</h2>
-
-<p><a href="http://github.com/tdt/">http://github.com/tdt/</a></p>
-
-<p>The organisation for the repositories needed for the basic functionality of The DataTank (e.g. LTS 2013.12)</p>
+<a name="a-new-github-organisation" class="anchor" href="#a-new-github-organisation"><span class="octicon octicon-link"></span></a>A new github organisation</h2>
 
 <p><a href="http://github.com/tdtext">http://github.com/tdtext</a></p>
 
-<p>The organisation where we will add official extensions for The DataTank and a barebone repository which everyone can fork to start its own tdtextension.
-It also contains docs at <a href="http://tdtext.github.io/">http://tdtext.github.io/</a> which can be edited at <a href="http://github.com/tdtext/tdtext.github.io">http://github.com/tdtext/tdtext.github.io</a>.</p>
+<p>This is the organisation where we will add all official extensions for The DataTank and a barebone repository which everyone can fork to start its own tdtextension.</p>
+
+<p>It also contains these docs at <a href="http://tdtext.github.io/">http://tdtext.github.io/</a> which can be edited at <a href="http://github.com/tdtext/tdtext.github.io">http://github.com/tdtext/tdtext.github.io</a>.</p>
 
 <h2>
 <a name="installing-extensions-using-composer" class="anchor" href="#installing-extensions-using-composer"><span class="octicon octicon-link"></span></a>Installing extensions using composer</h2>
 
 <p>If you're not familiar with composer, check out <a href="http://getcomposer.org/doc/00-intro.md">http://getcomposer.org/doc/00-intro.md</a>.</p>
 
-<div class="highlight"><pre><span class="nv">extensionname</span><span class="o">=</span> <span class="c"># Search for extensions at https://packagist.org/search/?q=tdtext</span>
-<span class="nb">cd</span> /path/to/tdt/root/
+<div class="highlight"><pre><span class="nb">cd</span> /path/to/tdt/root/
 composer require tdtext/<span class="k">${</span><span class="nv">extensionname</span><span class="k">}</span>
 composer update <span class="c"># this will also trigger the code to enable the extension. You can disable it in your config.</span>
 </pre></div>
@@ -83,33 +81,46 @@ composer update <span class="c"># this will also trigger the code to enable the 
 <a name="the-interfaces-the-hard-way" class="anchor" href="#the-interfaces-the-hard-way"><span class="octicon octicon-link"></span></a>The Interfaces (the hard way)</h3>
 
 <h4>
-<a name="tdtcoretdtextirouteeditor" class="anchor" href="#tdtcoretdtextirouteeditor"><span class="octicon octicon-link"></span></a>tdt/core/tdtext/IRouteEditor</h4>
+<a name="tdtcoretdtextirouteseditor" class="anchor" href="#tdtcoretdtextirouteseditor"><span class="octicon octicon-link"></span></a>tdt/core/tdtext/IRoutesEditor</h4>
 
-<p>With the route mapper you can add a controller for a specific route. This may come in handy when you want to handle your </p>
+<p>With the route mapper you can add a controller for a specific route. This comes in handy if you want to go past all tdt controller handling. This is not recommended if you're going to be handling data through here. It is recommended if you want to implement your own brand new functionality for certain URI patterns.</p>
 
-<div class="highlight"><pre><span class="k">Interface</span> <span class="nx">IRouteEditor</span> <span class="p">{</span>
-    <span class="k">abstract</span> <span class="k">function</span> <span class="nf">editRoutes</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$routes</span><span class="p">);</span> <span class="c1">//add, remove or edit routes</span>
+<p>For example:</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">MyOwnRouteController</span> <span class="k">implements</span> <span class="nx">IRoutesEditor</span> <span class="p">{</span>
+
+    <span class="k">function</span> <span class="nf">editRoutes</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$routes</span><span class="p">){</span>
+        <span class="c1">//key of routes is divided by a |</span>
+        <span class="c1">//the first part is the HTTP Method use, the second part is a regular expression</span>
+        <span class="nv">$routes</span><span class="p">[</span><span class="s2">"GET | about/(?P&lt;person&gt;[^?]+)"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">get_class</span><span class="p">(</span><span class="nv">$this</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">function</span> <span class="nf">GET</span><span class="p">(</span><span class="nv">$matches</span><span class="p">){</span>
+        <span class="k">echo</span> <span class="s2">"A page about "</span> <span class="o">.</span> <span class="nb">urldecode</span><span class="p">(</span><span class="nv">$matches</span><span class="p">[</span><span class="s2">"person"</span><span class="p">]);</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
 <h4>
 <a name="tdtcoretdtextidefinitionseditor" class="anchor" href="#tdtcoretdtextidefinitionseditor"><span class="octicon octicon-link"></span></a>tdt/core/tdtext/IDefinitionsEditor</h4>
 
-<p>When the documentation in tdt/core is ready, it will update the TdtextNotifier, which will in its turn notify all the extensions which implement this interface.</p>
+<p>Called when the documentation in tdt/core is ready</p>
 
-<p>You can add your own documentation for a new resource if you want for instance to write a scraper (nice example in AScraper - see further)</p>
+<p>You can add your own documentation for a new resource if you want to have your own configuration in there. You can use it to define new configurations without them being stored in the database.</p>
 
-<div class="highlight"><pre><span class="k">Interface</span> <span class="nx">IDefinitionsEditor</span> <span class="p">{</span>
-    <span class="k">abstract</span> <span class="k">function</span> <span class="nf">editDefinitions</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$definitions</span><span class="p">);</span>
+<p>For example:</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">NewDefinitionAdder</span> <span class="nx">IDefinitionsEditor</span> <span class="p">{</span>
+    <span class="k">function</span> <span class="nf">editDefinitions</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$definitions</span><span class="p">){</span>
+        <span class="nv">$definitions</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
 <h4>
 <a name="tdtcoretdtextiformatterseditor" class="anchor" href="#tdtcoretdtextiformatterseditor"><span class="octicon octicon-link"></span></a>tdt/core/tdtext/IFormattersEditor</h4>
 
-<p>When the documentation in tdt/core is ready, it will update the TdtextNotifier, which will in its turn notify all the extensions which implement this interface.</p>
-
-<p>You can add your own documentation for a new resource if you want for instance to write a scraper (nice example in AScraper - see further)</p>
+<p>Add your own formatter to the list</p>
 
 <div class="highlight"><pre><span class="k">Interface</span> <span class="nx">IFormattersEditor</span> <span class="p">{</span>
     <span class="sd">/**</span>
@@ -137,12 +148,43 @@ composer update <span class="c"># this will also trigger the code to enable the 
 <p>...WIP</p>
 
 <h3>
-<a name="using-an-abstract-class-recommended" class="anchor" href="#using-an-abstract-class-recommended"><span class="octicon octicon-link"></span></a>Using an abstract class (recommended)</h3>
+<a name="using-an-abstract-class-recommended---its-there-if-you-dont-know-about-the-datatank-internals" class="anchor" href="#using-an-abstract-class-recommended---its-there-if-you-dont-know-about-the-datatank-internals"><span class="octicon octicon-link"></span></a>Using an abstract class (recommended - it's there if you don't know about The DataTank internals</h3>
+
+<h4>
+<a name="tdtcoretdtextaformatter" class="anchor" href="#tdtcoretdtextaformatter"><span class="octicon octicon-link"></span></a>tdt/core/tdtext/AFormatter</h4>
+
+<p>Write a new behaviour for a certain format.</p>
+
+<p>For example:</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">YAMLFormatter</span> <span class="k">extends</span> <span class="nx">\tdt\core\tdtext\AFormatter</span> <span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(){</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="s2">"YAML"</span><span class="p">;</span> <span class="c1">//you can also override the behaviour for for example XML or JSON</span>
+    <span class="p">}</span>
+
+    <span class="k">function</span> <span class="nf">getGETParameters</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="k">array</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">function</span> <span class="nf">print</span><span class="p">(</span><span class="nv">$resourceconfiguration</span><span class="p">,</span> <span class="nv">$parameters</span><span class="p">,</span> <span class="nv">$object</span><span class="p">){</span>
+        <span class="c1">//YAML print code</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h4>
+<a name="tdtcoretdtextascraper" class="anchor" href="#tdtcoretdtextascraper"><span class="octicon octicon-link"></span></a>tdt/core/tdtext/AScraper</h4>
+
+<p>Writing a scraper can be done easily by extending the AScraper class. Use this class if you want to have a certain URI in The DataTank to scrape data from a certain source.</p>
+
+<p>Example can be found in the barebone repository which can be forked to start your own: <a href="http://github.com/tdtext/barebone">http://github.com/tdtext/barebone</a></p>
 
 <h4>
 <a name="tdtcoretdtextastrategy" class="anchor" href="#tdtcoretdtextastrategy"><span class="octicon octicon-link"></span></a>tdt/core/tdtext/AStrategy</h4>
 
 <p>If you want to implement a new strategy next to the standard ones for reading a certain source (e.g. a NoSQL cluster or a certain data format), extend this abstract class.</p>
+
+<p>Draft:</p>
 
 <div class="highlight"><pre><span class="k">abstract</span> <span class="k">class</span> <span class="nc">AStrategy</span> <span class="k">implements</span> <span class="o">...</span> <span class="p">{</span>
 
@@ -165,85 +207,10 @@ composer update <span class="c"># this will also trigger the code to enable the 
     <span class="k">abstract</span> <span class="k">function</span> <span class="nf">read</span><span class="p">(</span><span class="nv">$resourceconfiguration</span><span class="p">,</span> <span class="nv">$parameters</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
+      </section>
 
-<h4>
-<a name="tdtcoretdtextaformatter" class="anchor" href="#tdtcoretdtextaformatter"><span class="octicon octicon-link"></span></a>tdt/core/tdtext/AFormatter</h4>
-
-<p>Write a new behaviour for a certain format.</p>
-
-<div class="highlight"><pre><span class="k">abstract</span> <span class="k">class</span> <span class="nc">AFormatter</span> <span class="k">implements</span> <span class="nx">IFormattersEditor</span> <span class="p">{</span>
-    <span class="nv">$name</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
-
-    <span class="sd">/**</span>
-<span class="sd">     * @param $name e.g. "JSON"</span>
-<span class="sd">     */</span>
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nv">$name</span><span class="p">){</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">function</span> <span class="nf">editFormatters</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$formatters</span><span class="p">){</span>
-        <span class="nv">$formatters</span><span class="p">[</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">get_class</span><span class="p">(</span><span class="nv">$this</span><span class="p">);</span> <span class="c1">//Question: does this work across namespaces?</span>
-    <span class="p">}</span>
-
-    <span class="sd">/**</span>
-<span class="sd">     * Returns an array according to the discovery API of parameter objects.</span>
-<span class="sd">     * They include extra parameters which may be given to a formatter</span>
-<span class="sd">     * e.g. for a chart visualization, you might want to ask which fields to use, or for CSV, you might want to ask for the delimiter to use.</span>
-<span class="sd">     */</span>
-    <span class="k">abstract</span> <span class="k">function</span> <span class="nf">getGETParameters</span><span class="p">();</span>
-
-    <span class="sd">/**</span>
-<span class="sd">     * when reading the a resource configured with this strategy, this is what's going to happen.</span>
-<span class="sd">     * @param $parameters both contains the formatter parameters as the resource parameter</span>
-<span class="sd">     * @param $resourceconfiguration contains the resourceidentifier and the config parameters</span>
-<span class="sd">     * @param $object the object to print</span>
-<span class="sd">     */</span>
-    <span class="k">abstract</span> <span class="k">function</span> <span class="nf">print</span><span class="p">(</span><span class="nv">$resourceconfiguration</span><span class="p">,</span> <span class="nv">$parameters</span><span class="p">,</span> <span class="nv">$object</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
-<h4>
-<a name="tdtcoretdtextascraper" class="anchor" href="#tdtcoretdtextascraper"><span class="octicon octicon-link"></span></a>tdt/core/tdtext/AScraper</h4>
-
-<p>Writing a scraper can be done easily by extending the AScraper class. Use this class if you want to have a certain URI in The DataTank to scrape data from a certain source.</p>
-
-<div class="highlight"><pre><span class="k">abstract</span> <span class="k">class</span> <span class="nc">AScraper</span> <span class="k">implements</span> <span class="nx">IDefinitionsEditor</span><span class="p">,</span> <span class="nx">IRouteEditor</span> <span class="p">{</span>
-
-    <span class="sd">/**</span>
-<span class="sd">     * @param $resourceidentifier the path of the </span>
-<span class="sd">     */</span>
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nv">$resourceidentifier</span><span class="p">){</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">resourceidentifier</span> <span class="o">=</span> <span class="nv">$resourceidentifier</span><span class="p">;</span>  
-    <span class="p">}</span>
-
-    <span class="sd">/**</span>
-<span class="sd">     * @override</span>
-<span class="sd">     */</span>
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">editRoutes</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$routes</span><span class="p">){</span>
-        <span class="nv">$routes</span><span class="p">[</span><span class="nv">$resourceidentifier</span><span class="p">]</span> <span class="o">=</span> <span class="nb">get_class</span><span class="p">(</span><span class="nv">$this</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">editDefinitions</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$definitions</span><span class="p">){</span>
-
-    <span class="p">}</span>
-
-    <span class="sd">/**</span>
-<span class="sd">     * Returns an array according to the discovery API of parameter objects.</span>
-<span class="sd">     * They include the parameters needed to read a resource which's source uses this strategy.</span>
-<span class="sd">     */</span>
-    <span class="k">abstract</span> <span class="k">function</span> <span class="nf">getGETParameters</span><span class="p">();</span>
-
-    <span class="k">abstract</span> <span class="k">function</span> <span class="nf">read</span><span class="p">(</span><span class="nv">$parameters</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-        </section>
-
-        <footer>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-        
-      </div>
     </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
   </body>
 </html>
